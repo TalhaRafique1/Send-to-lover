@@ -12,20 +12,36 @@ yesBtn.addEventListener("click", () => {
     noBtn.style.display = "none";
 });
 
-// Make the No button move randomly on hover
+// Make the No button unclickable in a playful way
+noBtn.addEventListener("click", () => {
+    alert("Nice try! But you can't click me that easily!");
+});
+
+// Optional: Add a hover effect for desktop users
 noBtn.addEventListener("mouseover", () => {
-    const wrapper = document.querySelector(".wrapper");
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const noBtnRect = noBtn.getBoundingClientRect();
+    if (window.innerWidth > 768) { // Only apply this for desktop screens
+        const wrapper = document.querySelector(".wrapper");
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const noBtnRect = noBtn.getBoundingClientRect();
 
-    // Calculate max positions to ensure the button stays within the wrapper
-    const maxX = wrapperRect.width - noBtnRect.width;
-    const maxY = wrapperRect.height - noBtnRect.height;
+        // Add a margin to prevent the button from touching the edges
+        const margin = 10;
+        const maxX = wrapperRect.width - noBtnRect.width - margin;
+        const maxY = wrapperRect.height - noBtnRect.height - margin;
 
-    // Ensure randomX and randomY are within the wrapper bounds
-    const randomX = Math.min(Math.floor(Math.random() * maxX), maxX);
-    const randomY = Math.min(Math.floor(Math.random() * maxY), maxY);
+        // Ensure randomX and randomY are within the wrapper bounds
+        const randomX = Math.min(Math.floor(Math.random() * maxX) + margin, maxX);
+        const randomY = Math.min(Math.floor(Math.random() * maxY) + margin, maxY);
 
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+        noBtn.style.position = "absolute"; // Temporarily make it absolute
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+    }
+});
+
+// Reset button position on mouseout
+noBtn.addEventListener("mouseout", () => {
+    if (window.innerWidth > 768) { // Only apply this for desktop screens
+        noBtn.style.position = "static"; // Reset to default positioning
+    }
 });
