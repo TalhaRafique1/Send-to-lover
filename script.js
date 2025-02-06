@@ -12,36 +12,20 @@ yesBtn.addEventListener("click", () => {
     noBtn.style.display = "none";
 });
 
-// Make the No button unclickable in a playful way
-noBtn.addEventListener("click", () => {
-    alert("Nice try! But you can't click me that easily!");
-});
-
-// Optional: Add a hover effect for desktop users
+// Make the No button move randomly on hover
 noBtn.addEventListener("mouseover", () => {
-    if (window.innerWidth > 768) { // Only apply this for desktop screens
-        const wrapper = document.querySelector(".wrapper");
-        const wrapperRect = wrapper.getBoundingClientRect();
-        const noBtnRect = noBtn.getBoundingClientRect();
+    const wrapper = document.querySelector(".wrapper");
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const noBtnRect = noBtn.getBoundingClientRect();
 
-        // Add a margin to prevent the button from touching the edges
-        const margin = 10;
-        const maxX = wrapperRect.width - noBtnRect.width - margin;
-        const maxY = wrapperRect.height - noBtnRect.height - margin;
+    // Calculate max positions to ensure the button stays within the wrapper
+    const maxX = wrapperRect.width - noBtnRect.width;
+    const maxY = wrapperRect.height - noBtnRect.height;
 
-        // Ensure randomX and randomY are within the wrapper bounds
-        const randomX = Math.min(Math.floor(Math.random() * maxX) + margin, maxX);
-        const randomY = Math.min(Math.floor(Math.random() * maxY) + margin, maxY);
+    // Ensure randomX and randomY are within the wrapper bounds
+    const randomX = Math.min(Math.floor(Math.random() * maxX), maxX);
+    const randomY = Math.min(Math.floor(Math.random() * maxY), maxY);
 
-        noBtn.style.position = "absolute"; // Temporarily make it absolute
-        noBtn.style.left = randomX + "px";
-        noBtn.style.top = randomY + "px";
-    }
-});
-
-// Reset button position on mouseout
-noBtn.addEventListener("mouseout", () => {
-    if (window.innerWidth > 768) { // Only apply this for desktop screens
-        noBtn.style.position = "static"; // Reset to default positioning
-    }
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
 });
